@@ -16,6 +16,11 @@ namespace ConsoleUI
         {
             var builder = new ConfigurationBuilder();
             BuildConfig(builder);
+            Log.Logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(builder.Build())
+            .Enrich.FromLogContext()
+            .WriteTo.Console()
+            .CreateLogger();
         }
 
         static void BuildConfig(IConfigurationBuilder builder)
