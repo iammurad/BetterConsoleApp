@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Serilog;
 using System;
 using System.ComponentModel;
@@ -21,6 +22,15 @@ namespace ConsoleUI
             .Enrich.FromLogContext()
             .WriteTo.Console()
             .CreateLogger();
+
+            Log.Logger.Information("Application Starting");
+            var host = Host.CreateDefaultBuilder()
+                .ConfigureServices((context, services) =>
+                {
+
+                })
+                .UseSerilog()
+                .Build();
         }
 
         static void BuildConfig(IConfigurationBuilder builder)
@@ -29,6 +39,24 @@ namespace ConsoleUI
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
                 .AddEnvironmentVariables();
+        }
+    }
+    public class GreetingService
+    {
+        private readonly ILogger<GreetingService>_log;
+        private readonly IConfiguration _config;
+
+        public GreetingService(ILogger<GreetingService> log,IConfiguration config)
+        {
+            _log = log;
+            _config = config;
+        }
+        public void Run()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+
+            }
         }
     }
 }
