@@ -31,7 +31,7 @@ namespace ConsoleUI
                 .UseSerilog()
                 .Build();
 
-            var Myservice = ActivatorUtilities.CreateInstance<IGreetingService>(host.Services);
+            var Myservice = ActivatorUtilities.CreateInstance<GreetingService>(host.Services);
             Myservice.Run();
         }
 
